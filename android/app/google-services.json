@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "712226046626",
+    "project_id": "ramo-d661a",
+    "storage_bucket": "ramo-d661a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712226046626:android:612b82b50e0343d28c4dfb",
+        "android_client_info": {
+          "package_name": "com.ramo.ramoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712226046626-ivqki3o72skhghmaf6iulb45qsputchd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSZNnhYVTf7mmLytLCURlyXtEboMWhfw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712226046626-ivqki3o72skhghmaf6iulb45qsputchd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
