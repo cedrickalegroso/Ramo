@@ -26,12 +26,13 @@ class MyApp extends StatelessWidget {
             create: (context) => context.read<AuthService>().authStateChanges)
       ],
       child: MaterialApp(
+        onGenerateRoute: RouteGenerator.generateRoute,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: AuthenticationWrapper(),
+        home: Splashscreen(),
       ),
     );
   }
@@ -47,7 +48,15 @@ class AuthenticationWrapper extends StatelessWidget {
     final firebaseuser = context.watch<User>();
 
     if (firebaseuser != null) {
-      return Text("Signed in");
+      return  Container(
+       child: GestureDetector( 
+         onTap: () {
+         Navigator.of(context).pushNamed('/signup');
+           
+         },
+         child: Text('Sign up'),
+       ),
+    );
     }
     return  Container(
        child: GestureDetector( 
