@@ -56,8 +56,9 @@ class AuthService {
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
     String uid = FirebaseAuth.instance.currentUser.uid;
     users
-        .add({
-          'full name:': fullName,
+        .doc(uid)
+        .set({
+          'full name': fullName,
           'email': email,
           'uid': uid,
         })
