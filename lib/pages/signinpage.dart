@@ -35,7 +35,6 @@ class SignInPage extends StatelessWidget {
                 'Ramo Login',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              
               SizedBox(
                 height: 20.0,
               ),
@@ -85,7 +84,7 @@ class SignInPage extends StatelessWidget {
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
-                  if (result == 'userfound') {
+                  if (result) {
                     Navigator.of(context).pushNamed('/home');
                   }
                 },
@@ -108,7 +107,7 @@ class SignInPage extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                       color: Colors.grey),
                 ),
-               onTap: () {
+                onTap: () {
                   Navigator.of(context).pushNamed('/signup');
                 },
               )
@@ -117,6 +116,5 @@ class SignInPage extends StatelessWidget {
         ),
       ]),
     );
-
   }
 }
