@@ -12,7 +12,7 @@ class _SplashscreenState extends State<Splashscreen> {
     super.initState();
 
     Timer(Duration(seconds: 5),
-        () => Navigator.of(context).pushReplacementNamed('/signup'));
+        () => Navigator.of(context).pushReplacementNamed('/signin'));
   }
 
   @override

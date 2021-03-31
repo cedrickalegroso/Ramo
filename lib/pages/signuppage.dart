@@ -2,7 +2,7 @@ import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -32,10 +32,23 @@ class SignInPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Ramo Login',
+                'Ramo Signup',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              
+               SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                      labelText: 'Full Name',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)))),
               SizedBox(
                 height: 20.0,
               ),
@@ -90,7 +103,7 @@ class SignInPage extends StatelessWidget {
                   }
                 },
                 child: Text(
-                  "Sign in",
+                  "Create Account",
                   style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -102,13 +115,13 @@ class SignInPage extends StatelessWidget {
               ),
               InkWell(
                 child: Text(
-                  "Join Ramo today",
+                  "Ramo for communities",
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
                       color: Colors.grey),
                 ),
-               onTap: () {
+                onTap: () {
                   Navigator.of(context).pushNamed('/signup');
                 },
               )
