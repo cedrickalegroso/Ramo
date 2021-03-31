@@ -35,7 +35,7 @@ class SignUpPage extends StatelessWidget {
                 'Ramo Signup',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-               SizedBox(
+              SizedBox(
                 height: 20.0,
               ),
               TextField(
@@ -94,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30.0),
                             side: BorderSide(color: Colors.green)))),
                 onPressed: () async {
-                  dynamic result = await context.read<AuthService>().signIn(
+                  dynamic result = await context.read<AuthService>().signUp(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
@@ -130,6 +130,5 @@ class SignUpPage extends StatelessWidget {
         ),
       ]),
     );
-
   }
 }
