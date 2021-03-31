@@ -1,4 +1,3 @@
-
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +11,9 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Home"),
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
-             context.read<AuthService>().signOut();
+            context.read<AuthService>().signOut();
           },
           child: Text("Sign Out"),
         )
