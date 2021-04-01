@@ -14,6 +14,16 @@ class SignInPage extends StatelessWidget {
           Container(
               child: Stack(
             children: <Widget>[
+              Container(
+                padding: EdgeInsets.fromLTRB(10.0, 50.0, 0.0, 0.0),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      "assets/img/logo2.png",
+                      scale: 20.0,
+                    ),
+                  ],
+                ),
               ),
             ],
           )),
@@ -52,9 +62,69 @@ class SignInPage extends StatelessWidget {
                         color: Colors.grey,
                       ),
                       focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green))),
+                  obscureText: true,
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
+                TextButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.only(
+                              left: 50, right: 50, top: 10, bottom: 10)),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: Colors.green)))),
+                  onPressed: () async {
+                    dynamic result = await context.read<AuthService>().signIn(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        );
+                    if (result == 'userfound') {
+                      Navigator.of(context).pushNamed('/home');
+                    }
+                  },
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
+                InkWell(
+                  child: Text(
+                    "Join Ramo today",
+                    style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/signup');
+                  },
+                )
+              ],
+            ),
+          ),
+        ]),
+        bottomNavigationBar: Container(
+          height: 50,
+          color: Colors.green,
+          child: Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text('Ramo Beta',style: TextStyle(color: Colors.white),)
+             ],
+          ),
+        )
+        );
   }
 }
