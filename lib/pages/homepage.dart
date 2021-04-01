@@ -1,6 +1,7 @@
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:ramo/services/databaseService.dart';
 
 class HomePageStateful extends StatefulWidget {
   const HomePageStateful({
@@ -60,6 +61,13 @@ class _HomePageStateful extends State<HomePageStateful> {
               context.read<AuthService>().signOut();
             },
             child: Text("Sign Out"),
+          ),
+          
+          ElevatedButton(
+            onPressed: () {
+              context.read<DatabaseService>().test('PAPA');
+            },
+            child: Text("Sign wew"),
           ),
           _widgetOptions.elementAt(_selectedIndex)
         ]),

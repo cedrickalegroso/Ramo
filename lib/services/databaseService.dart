@@ -14,6 +14,16 @@ class DatabaseService {
       'email' : email
      });
   }
+
+
+   Future<void> test(String test) async {
+     return await userCollection.add(
+       {
+          test: test
+       }
+     );
+      
+  }
   
   User _getUserData(DocumentSnapshot snapshot) {
     return User(
@@ -24,6 +34,7 @@ class DatabaseService {
   }
 
   Stream<User> get userData {
+    print('get usr');
     return userCollection.doc(uid).snapshots().map(_getUserData);
   }
 

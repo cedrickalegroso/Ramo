@@ -108,7 +108,7 @@ class SignInPage extends StatelessWidget {
                         color: Colors.grey),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed('/signup');
+                    Navigator.of(context).pushNamed('/onboarding');
                   },
                 )
               ],
