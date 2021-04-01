@@ -84,7 +84,7 @@ class SignInPage extends StatelessWidget {
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                         );
-                    if (result == 'userfound') {
+                    if (result) {
                       Navigator.of(context).pushNamed('/home');
                     }
                   },
@@ -119,12 +119,14 @@ class SignInPage extends StatelessWidget {
           height: 50,
           color: Colors.green,
           child: Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: [
-               Text('Ramo Beta',style: TextStyle(color: Colors.white),)
-             ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Ramo Beta',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
           ),
-        )
-        );
+        ));
   }
 }
