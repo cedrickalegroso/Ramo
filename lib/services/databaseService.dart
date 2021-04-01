@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ramo/models/user.dart';
+import 'package:ramo/models/userData.dart';
 
 class DatabaseService {
   final String uid;
@@ -20,16 +21,16 @@ class DatabaseService {
     return await userCollection.add({test: test});
   }
 
-  User _getUserData(DocumentSnapshot snapshot) {
-    return User(
+  UserData _getUserData(DocumentSnapshot snapshot) {
+    return UserData(
       uid: uid,
-      displayName: snapshot.data()['displayName'] ?? '',
+      name: snapshot.data()['name'] ?? '',
       email: snapshot.data()['email'] ?? '',
     );
   }
 
-  Stream<User> get userData {
-    print('get usr');
+  Stream<UserData> get userData {
+    print('get used data 1');
     return userCollection.doc(uid).snapshots().map(_getUserData);
   }
 }

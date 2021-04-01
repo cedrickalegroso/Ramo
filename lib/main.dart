@@ -6,9 +6,8 @@ import 'package:ramo/services/authService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ramo/services/databaseService.dart';
 import 'package:ramo/services/routerService.dart';
-import 'package:ramo/pages/splashscreen.dart';
 import 'package:ramo/pages/homepage.dart';
-import 'package:ramo/services/databaseService.dart';
+import 'package:ramo/models/userData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ramo/pages/onboarding/onboarding.dart';
 
@@ -38,6 +37,12 @@ class MyApp extends StatelessWidget {
                 DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)),
         StreamProvider(
             create: (context) => context.read<AuthService>().authStateChanges),
+        FirebaseAuth.instance.currentUser != null
+            ? StreamProvider<UserData>.value(
+                value:
+                    DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
+                        .userData)
+            : StreamProvider<UserData>.value(value: DatabaseService().userData)
       ],
       child: MaterialApp(
         onGenerateRoute: RouteGenerator.generateRoute,
@@ -66,8 +71,11 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
+    final userData = context.watch<UserData>();
 
     if (firebaseuser != null) {
+      // print(firebaseuser.email);
+      print(userData.email);
       return HomePageStateful();
     } else {
       return SignInPage();

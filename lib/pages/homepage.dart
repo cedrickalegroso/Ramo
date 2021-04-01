@@ -55,14 +55,12 @@ class _HomePageStateful extends State<HomePageStateful> {
       ),
       body: Center(
         child: Column(children: [
-      
           ElevatedButton(
             onPressed: () {
               context.read<AuthService>().signOut();
             },
             child: Text("Sign Out"),
           ),
-          
           ElevatedButton(
             onPressed: () {
               context.read<DatabaseService>().test('PAPA');

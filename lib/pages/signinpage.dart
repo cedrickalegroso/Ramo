@@ -41,28 +41,55 @@ class SignInPage extends StatelessWidget {
                 TextField(
                     controller: emailController,
                     decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
+                      labelText: 'Email',
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      labelStyle: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                        borderSide: BorderSide(
+                          color: Color(0xFF009245),
+                          width: 2.0,
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green)))),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                        borderSide: BorderSide(
+                          color: Color(0xFF82CAA4),
+                          width: 2.0,
+                        ),
+                      ),
+                    )),
                 SizedBox(
                   height: 20.0,
                 ),
                 TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
+                    labelText: 'Password',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      borderSide: BorderSide(
+                        color: Color(0xFF009245),
+                        width: 2.0,
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green))),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                      borderSide: BorderSide(
+                        color: Color(0xFF82CAA4),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
                   obscureText: true,
                 ),
                 SizedBox(
@@ -108,7 +135,7 @@ class SignInPage extends StatelessWidget {
                         color: Colors.grey),
                   ),
                   onTap: () {
-                    Navigator.of(context).pushNamed('/onboarding');
+                    Navigator.of(context).pushNamed('/signup');
                   },
                 )
               ],
