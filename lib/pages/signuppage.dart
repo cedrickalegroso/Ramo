@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class SignUpPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class SignUpPage extends StatelessWidget {
                 height: 20.0,
               ),
               TextField(
-                  controller: emailController,
+                  controller: nameController,
                   decoration: InputDecoration(
                       labelText: 'Full Name',
                       labelStyle: TextStyle(
@@ -94,11 +95,11 @@ class SignUpPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30.0),
                             side: BorderSide(color: Colors.green)))),
                 onPressed: () async {
-                  dynamic result = await context.read<AuthService>().signUp(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim(),
-                      );
-                  if (result == 'userfound') {
+                  bool result = await context.read<AuthService>().signUp(
+                      email: emailController.text.trim(),
+                      password: passwordController.text.trim(),
+                      fullName: nameController.text.trim());
+                  if (result) {
                     Navigator.of(context).pushNamed('/home');
                   }
                 },
