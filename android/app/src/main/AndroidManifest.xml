@@ -2,7 +2,7 @@
     package="com.example.ramo">
    <application
         android:label="ramo"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
