@@ -130,6 +130,16 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
       ]),
+        bottomNavigationBar: Container(
+          height: 50,
+          color: Colors.green,
+          child: Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Text('Ramo Beta',style: TextStyle(color: Colors.white),)
+             ],
+          ),
+        )
     );
   }
 }

@@ -48,7 +48,7 @@ class AuthenticationWrapper extends StatelessWidget {
     final firebaseuser = context.watch<User>();
 
     if (firebaseuser != null) {
-         return HomePage();
+         return HomePageStateful();
     } else {
         return  Splashscreen();
     }
