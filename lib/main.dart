@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ramo/pages/signinpage.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ramo/services/databaseService.dart';
 import 'package:ramo/services/routerService.dart';
 import 'package:ramo/pages/splashscreen.dart';
 import 'package:ramo/pages/homepage.dart';
@@ -33,11 +34,10 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthService(FirebaseAuth.instance),
         ),
         Provider<DatabaseService>(
-          create: (_) => DatabaseService(),
-        ),
+            create: (_) =>
+                DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)),
         StreamProvider(
             create: (context) => context.read<AuthService>().authStateChanges),
-   
       ],
       child: MaterialApp(
         onGenerateRoute: RouteGenerator.generateRoute,
@@ -47,10 +47,11 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         //home: AuthenticationWrapper(),
-        initialRoute: onBoardScreen == 0 || onBoardScreen == null ? 'Onboarding' : 'home',
+        initialRoute:
+            onBoardScreen == 0 || onBoardScreen == null ? 'Onboarding' : 'home',
         routes: {
-          'Onboarding' : (context) => Onboarding(),
-          'home' : (context) => AuthenticationWrapper()
+          'Onboarding': (context) => Onboarding(),
+          'home': (context) => AuthenticationWrapper()
         },
       ),
     );
@@ -58,18 +59,13 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthenticationWrapper extends StatelessWidget {
-  
-  
   const AuthenticationWrapper({
     Key key,
   }) : super(key: key);
 
-  
-
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
-    
 
     if (firebaseuser != null) {
       return HomePageStateful();

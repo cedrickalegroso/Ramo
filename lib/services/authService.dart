@@ -29,7 +29,7 @@ class AuthService {
     }
   }
 
-  Future<bool> signUp({String email, String password, String fullName}) async {
+  Future<bool> signUp({String email, String password}) async {
     // try {
     //   await _firebaseAuth.createUserWithEmailAndPassword(
     //       email: email, password: password);
@@ -40,7 +40,7 @@ class AuthService {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       print('user signed up successfully');
-      addUser(email: email, fullName: fullName);
+      // addUser(email: email, fullName: fullName);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -52,17 +52,17 @@ class AuthService {
     }
   }
 
-  Future<void> addUser({String email, String fullName}) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    users
-        .doc(uid)
-        .set({
-          'full name': fullName,
-          'email': email,
-          'uid': uid,
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
+  // Future<void> addUser({String email, String fullName}) async {
+  //   CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  //   String uid = FirebaseAuth.instance.currentUser.uid;
+  //   users
+  //       .doc(uid)
+  //       .set({
+  //         'full name': fullName,
+  //         'email': email,
+  //         'uid': uid,
+  //       })
+  //       .then((value) => print("User Added"))
+  //       .catchError((error) => print("Failed to add user: $error"));
+  // }
 }
