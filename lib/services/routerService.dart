@@ -5,6 +5,8 @@ import 'package:ramo/pages/auth/signuppage.dart';
 import 'package:ramo/pages/auth/accountsetup.dart';
 import 'package:ramo/pages/auth/testmap.dart';
 import 'package:ramo/main.dart';
+import 'package:ramo/pages/dev/objdtn.dart';
+import 'package:ramo/pages/homepage.dart';
 import 'package:ramo/pages/onboarding/onboarding.dart';
 import 'package:ramo/pages/dev/devhome.dart';
 import 'package:ramo/pages/dev/camera.dart';
@@ -18,7 +20,7 @@ class RouteGenerator {
       case '/signup':
         return MaterialPageRoute(builder: (_) => SignUpPage());
       case '/home':
-        return MaterialPageRoute(builder: (_) => MyApp());
+        return MaterialPageRoute(builder: (_) => HomePageStateful());
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => Onboarding());
       case '/accsetup':
@@ -29,6 +31,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => DevPage());
       case '/camera':
         return MaterialPageRoute(builder: (_) => CameraPage());
+      case '/checkbox':
+        return MaterialPageRoute(builder: (_) => CheckBoxListTileDemo());
+      case '/objdtndev':
+        return MaterialPageRoute(builder: (_) => ObjdtnState(cameras));
       default:
         return MaterialPageRoute(builder: (_) => MyApp());
     }

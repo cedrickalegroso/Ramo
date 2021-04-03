@@ -1,16 +1,15 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ramo/models/models.dart';
 import 'package:ramo/pages/auth/accountsetup.dart';
+import 'package:ramo/pages/dev/devhome.dart';
+import 'package:ramo/pages/dev/objdtn.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:ramo/services/databaseService.dart';
 
 class HomePageStateful extends StatefulWidget {
-  const HomePageStateful({
-    Key key,
-  }) : super(key: key);
-
   @override
   _HomePageStateful createState() => _HomePageStateful();
 }
@@ -32,11 +31,11 @@ class _HomePageStateful extends State<HomePageStateful> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: OBJ DETECTION',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Index 2: Settings',
       style: optionStyle,
     ),
     Text(
@@ -48,14 +47,6 @@ class _HomePageStateful extends State<HomePageStateful> {
   @override
   Widget build(BuildContext context) {
     final userData = context.watch<UserData>();
-    // userData == null
-    //     ? setState(() {
-    //         loading = false;
-    //       })
-    //     : setState(() {
-    //         loading = true;
-    //         print('DEBUG ${userData.hasDoneSetup}');
-    //       });
     return userData != null
         ? userData.hasDoneSetup == 1
             ? Scaffold(

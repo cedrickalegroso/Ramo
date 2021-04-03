@@ -31,6 +31,18 @@ class _DevPageStateful extends State<DevPage> {
             ),
             InkWell(
               child: Text(
+                "OBJECT DETECTION",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/objdtndev');
+              },
+            ),
+            InkWell(
+              child: Text(
                 "Signup",
                 style: TextStyle(
                     fontSize: 30.0,

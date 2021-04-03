@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,8 @@ import 'package:ramo/models/user.dart' as _user;
 
 import 'models/models.dart';
 
+List<CameraDescription> cameras;
+
 int onBoardScreen;
 
 Future<void> main() async {
@@ -27,6 +30,11 @@ Future<void> main() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   onBoardScreen = await _prefs.getInt('onBoardScreen');
   await _prefs.setInt('onBoardScreen', 1);
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    print('CAMERA FAIL ERROR CODE: $e'); // prints camera errors
+  }
   runApp(MyApp());
 }
 
@@ -66,7 +74,9 @@ class MyApp extends StatelessWidget {
           ),
           home: Scaffold(
             body: Container(
-              child: AuthenticationWrapperState(),
+              child: onBoardScreen == 1
+                  ? AuthenticationWrapperState()
+                  : Onboarding(),
             ),
           )
           // initialRoute:
