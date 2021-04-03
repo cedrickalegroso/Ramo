@@ -126,9 +126,9 @@ class _SignInPagePageState extends State<SignInPage> {
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                         );
-                    if (result) {
-                      Navigator.of(context).pushNamed('/home');
-                    }
+                    // if (result) {
+                    //   Navigator.of(context).pop();
+                    // }
                   },
                   child: Text(
                     "Sign in",

@@ -119,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             email: emailController.text.trim(),
                             password: passwordController.text.trim());
                         if (result) {
-                          Navigator.of(context).pushNamed('/home');
+                          Navigator.of(context).pop();
                         }
                       },
                       child: Text(

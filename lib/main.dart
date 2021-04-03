@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:ramo/pages/auth/accountsetup.dart';
 import 'package:ramo/pages/auth/signinpage.dart';
 import 'package:ramo/pages/auth/signuppage.dart';
+import 'package:ramo/pages/homepagewrapper.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ramo/services/databaseService.dart';
@@ -39,22 +40,22 @@ class MyApp extends StatelessWidget {
         Provider<AuthService>(
           create: (_) => AuthService(FirebaseAuth.instance),
         ),
-        Provider<DatabaseService>(create: (_) => DatabaseService()),
+        // Provider<DatabaseService>(create: (_) => DatabaseService()),
         StreamProvider(
           create: (context) => context.read<AuthService>().authStateChanges,
           initialData: null,
         ),
-        FirebaseAuth.instance.currentUser != null
-            ? StreamProvider<UserData>.value(
-                value:
-                    DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
-                        .userData,
-                initialData: null,
-              )
-            : StreamProvider<UserData>.value(
-                value: DatabaseService().userData,
-                initialData: null,
-              )
+        // FirebaseAuth.instance.currentUser != null
+        //     ? StreamProvider<UserData>.value(
+        //         value:
+        //             DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
+        //                 .userData,
+        //         initialData: null,
+        //       )
+        //     : StreamProvider<UserData>.value(
+        //         value: DatabaseService().userData,
+        //         initialData: null,
+        //       )
       ],
       child: MaterialApp(
           onGenerateRoute: RouteGenerator.generateRoute,
@@ -93,27 +94,11 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapperState> {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseuser = context.watch<User>();
-    final userData = context.watch<UserData>();
-
-    if (firebaseuser != null) {
-      userData == null
-          ? setState(() {
-              loading = false;
-            })
-          : setState(() {
-              loading = true;
-              print('DEBUG ${userData.hasDoneSetup}');
-            });
-    } else {
-      return SignInPage();
-    }
-
-    return loading
-        ? userData.hasDoneSetup == 1
-            ? HomePageStateful()
-            : AccountSetup()
-        : Column(
+    return StreamBuilder<User>(
+      stream: context.read<AuthService>().authStateChanges,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -122,6 +107,44 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapperState> {
               )
             ],
           );
+        }
+        final firebaseuser = snapshot.data;
+        if (firebaseuser == null) {
+          print('No user is logged in');
+          return SignInPage();
+        } else {
+          print(
+              'User with uid: ${firebaseuser.uid}, email: ${firebaseuser.email} is logged in');
+          return HomeWrapper();
+        }
+      },
+    );
+    // final userData = context.watch<UserData>();
+    // if (firebaseuser != null) {
+    //   userData == null
+    //       ? setState(() {
+    //           loading = false;
+    //         })
+    //       : setState(() {
+    //           loading = true;
+    //           print('DEBUG ${userData.hasDoneSetup}');
+    //         });
+    // } else {
+    //   return SignInPage();
+    // }
+    // return loading
+    //     ? userData.hasDoneSetup == 1
+    //         ? HomePageStateful()
+    //         : AccountSetup()
+    //     : Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           Center(
+    //             child: CircularProgressIndicator(),
+    //           )
+    //         ],
+    //       );
 
 //  firebaseuser != null
 //         ? SignInPage()
