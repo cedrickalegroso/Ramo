@@ -2,8 +2,20 @@ import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:ramo/services/databaseService.dart';
+import 'dart:async';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  @override
+  void initState() {
+    super.initState();
+    //  DatabaseService().userData;
+  }
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -30,35 +42,6 @@ class SignUpPage extends StatelessWidget {
                     ),
                     SizedBox(
                       height: screenData.size.height / 20,
-                    ),
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        labelText: 'Full Name',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          borderSide: BorderSide(
-                            color: Color(0xFF009245),
-                            width: 2.0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          borderSide: BorderSide(
-                            color: Color(0xFF82CAA4),
-                            width: 2.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
                     ),
                     TextField(
                       controller: emailController,
@@ -136,10 +119,6 @@ class SignUpPage extends StatelessWidget {
                             email: emailController.text.trim(),
                             password: passwordController.text.trim());
                         if (result) {
-                          await context
-                              .read<DatabaseService>()
-                              .addUserToDatabase(nameController.text.trim(),
-                                  emailController.text.trim());
                           Navigator.of(context).pushNamed('/home');
                         }
                       },
@@ -163,7 +142,7 @@ class SignUpPage extends StatelessWidget {
                             color: Colors.grey),
                       ),
                       onTap: () {
-                        Navigator.of(context).pushNamed('/signup');
+                        Navigator.of(context).pushNamed('/home');
                       },
                     )
                   ],

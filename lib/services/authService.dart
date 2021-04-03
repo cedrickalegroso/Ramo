@@ -1,12 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ramo/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ramo/services/databaseService.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth;
-
+  FirebaseAuth _auth = FirebaseAuth.instance;
   AuthService(this._firebaseAuth);
 
   Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  Stream<UserData> get user {
+    return _auth.authStateChanges().map(
+          (User firebaseUser) =>
+              (firebaseUser != null) ? UserData(uid: firebaseUser.uid) : null,
+        );
+  }
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
@@ -30,6 +38,7 @@ class AuthService {
   }
 
   Future<bool> signUp({String email, String password}) async {
+    print('here naa');
     // try {
     //   await _firebaseAuth.createUserWithEmailAndPassword(
     //       email: email, password: password);
@@ -40,6 +49,9 @@ class AuthService {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       print('user signed up successfully');
+      var uid = FirebaseAuth.instance.currentUser.uid;
+      DatabaseService().addUserToDatabase(uid, email);
+
       // addUser(email: email, fullName: fullName);
       return true;
     } on FirebaseAuthException catch (e) {

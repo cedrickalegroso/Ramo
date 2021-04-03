@@ -21,12 +21,22 @@ environment:
   sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
+  flutter_spinkit: ^5.0.0
+  firebase_storage: ^8.0.1
+  cached_network_image: ^3.0.0
+  easy_localization: ^3.0.0
+  image_picker: ^0.7.4
+  rxdart: ^0.26.0
+  google_maps_flutter: ^2.0.2
+  location: ^4.1.1
+  geoflutterfire2: ^2.3.2
   shared_preferences: ^2.0.5
   cloud_firestore: ^1.0.3
   provider: ^5.0.0
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
   firebase: ^9.0.1
+  
   flutter:
     sdk: flutter
     
@@ -62,6 +72,7 @@ flutter:
   assets:
      - assets/img/logo.png
      - assets/img/logo2.png
+     - assets/img/boxramo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

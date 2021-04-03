@@ -1,13 +1,28 @@
+import 'package:ramo/models/user.dart';
+import 'package:ramo/models/userData.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:ramo/services/databaseService.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPagePageState createState() => _SignInPagePageState();
+}
+
+class _SignInPagePageState extends State<SignInPage> {
+  @override
+  void initState() {
+    super.initState();
+    // DatabaseService().userData;
+  }
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // final user = context.watch<User>();
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [

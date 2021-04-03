@@ -31,6 +31,36 @@ class _DevPageStateful extends State<DevPage> {
             ),
             InkWell(
               child: Text(
+                "Signup",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/signup');
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
+                "Check box",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/checkbox');
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
                 "DEV MAP",
                 style: TextStyle(
                     fontSize: 30.0,
@@ -69,6 +99,36 @@ class _DevPageStateful extends State<DevPage> {
               ),
               onTap: () {
                 Navigator.of(context).pushNamed('/accsetup');
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
+                "Camera",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/camera');
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
+                "Force Signout",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                context.read<AuthService>().signOut();
               },
             ),
           ],

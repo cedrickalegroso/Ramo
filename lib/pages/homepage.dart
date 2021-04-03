@@ -1,3 +1,4 @@
+import 'package:ramo/models/models.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +45,11 @@ class _HomePageStateful extends State<HomePageStateful> {
 
   @override
   Widget build(BuildContext context) {
+    final userData = context.watch<UserData>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Jacob',
+        title: Text(
+          '${userData.fname}',
           style: TextStyle(
               fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
         ),
@@ -55,6 +57,18 @@ class _HomePageStateful extends State<HomePageStateful> {
       ),
       body: Center(
         child: Column(children: [
+          InkWell(
+            child: Text(
+              "DEVELOPER MODE",
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed('/dev');
+            },
+          ),
           ElevatedButton(
             onPressed: () {
               context.read<AuthService>().signOut();
@@ -62,9 +76,7 @@ class _HomePageStateful extends State<HomePageStateful> {
             child: Text("Sign Out"),
           ),
           ElevatedButton(
-            onPressed: () {
-              context.read<DatabaseService>().test('PAPA');
-            },
+            onPressed: () {},
             child: Text("Sign wew"),
           ),
           _widgetOptions.elementAt(_selectedIndex)
