@@ -5,6 +5,8 @@ import 'package:ramo/models/models.dart';
 import 'package:ramo/pages/homepage.dart';
 import 'package:ramo/services/databaseService.dart';
 
+import 'auth/checkpoint.dart';
+
 class HomeWrapper extends StatefulWidget {
   @override
   _HomeWrapperState createState() => _HomeWrapperState();
@@ -14,6 +16,9 @@ class _HomeWrapperState extends State<HomeWrapper> {
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
+
+    print(firebaseuser);
+
     return firebaseuser != null
         ? MultiProvider(
             providers: [
@@ -24,7 +29,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 initialData: null,
               )
             ],
-            child: HomePageStateful(),
+            child: CheckPointStateful(),
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,

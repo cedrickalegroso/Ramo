@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ramo/models/models.dart';
 import 'package:ramo/pages/auth/accountsetup.dart';
+import 'package:ramo/pages/auth/accountsetupComm.dart';
 import 'package:ramo/pages/dev/devhome.dart';
 import 'package:ramo/pages/dev/objdtn.dart';
 import 'package:ramo/services/authService.dart';
@@ -9,12 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:ramo/services/databaseService.dart';
 
-class HomePageStateful extends StatefulWidget {
+class HomePageComStateful extends StatefulWidget {
   @override
-  _HomePageStateful createState() => _HomePageStateful();
+  _HomePageComStateful createState() => _HomePageComStateful();
 }
 
-class _HomePageStateful extends State<HomePageStateful> {
+class _HomePageComStateful extends State<HomePageComStateful> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -52,7 +53,7 @@ class _HomePageStateful extends State<HomePageStateful> {
             ? Scaffold(
                 appBar: AppBar(
                   title: Text(
-                    '${userData.fname}',
+                    '${userData.name}',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -62,7 +63,7 @@ class _HomePageStateful extends State<HomePageStateful> {
                 ),
                 body: Center(
                   child: Column(children: [
-                    Text('User'),
+                    Text('Community'),
                     InkWell(
                       child: Text(
                         "DEVELOPER MODE",
@@ -88,28 +89,27 @@ class _HomePageStateful extends State<HomePageStateful> {
                     _widgetOptions.elementAt(_selectedIndex)
                   ]),
                 ),
-                bottomNavigationBar: BottomAppBar(
-
-                    // items: const <BottomNavigationBarItem>[
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.home),
-                    //     label: 'Home',
-                    //   ),
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.business),
-                    //     label: 'Business',
-                    //   ),
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.business),
-                    //     label: 'Business',
-                    //   )
-                    // ],
-                    // currentIndex: _selectedIndex,
-                    // selectedItemColor: Colors.amber[800],
-                    // onTap: _onItemTapped,
+                bottomNavigationBar: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Home',
                     ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.business),
+                      label: 'Business',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.business),
+                      label: 'Business',
+                    )
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.amber[800],
+                  onTap: _onItemTapped,
+                ),
               )
-            : AccountSetup()
+            : AccountCommunitySetup()
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

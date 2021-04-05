@@ -113,6 +113,18 @@ class _DevPageStateful extends State<DevPage> {
                 Navigator.of(context).pushNamed('/accsetup');
               },
             ),
+            InkWell(
+              child: Text(
+                "Account Setup Community",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/accsetupcomm');
+              },
+            ),
             SizedBox(
               height: 10.0,
             ),

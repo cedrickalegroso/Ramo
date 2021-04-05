@@ -37,8 +37,8 @@ class AuthService {
     }
   }
 
-  Future<bool> signUp({String email, String password}) async {
-    print('here naa');
+  Future<bool> signUp({String email, String password, int type}) async {
+    print('Type $type');
     // try {
     //   await _firebaseAuth.createUserWithEmailAndPassword(
     //       email: email, password: password);
@@ -50,9 +50,11 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       print('user signed up successfully');
       var uid = FirebaseAuth.instance.currentUser.uid;
-      DatabaseService().addUserToDatabase(uid, email);
 
-      // addUser(email: email, fullName: fullName);
+      type == 1
+          ? DatabaseService().addCommunityToDatabase(uid, email)
+          : DatabaseService().addUserToDatabase(uid, email);
+
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
