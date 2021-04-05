@@ -62,7 +62,6 @@ class _HomePageStateful extends State<HomePageStateful> {
                 ),
                 body: Center(
                   child: Column(children: [
-                    Text('User'),
                     InkWell(
                       child: Text(
                         "DEVELOPER MODE",
@@ -88,26 +87,25 @@ class _HomePageStateful extends State<HomePageStateful> {
                     _widgetOptions.elementAt(_selectedIndex)
                   ]),
                 ),
-                bottomNavigationBar: BottomAppBar(
-
-                    // items: const <BottomNavigationBarItem>[
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.home),
-                    //     label: 'Home',
-                    //   ),
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.business),
-                    //     label: 'Business',
-                    //   ),
-                    //   BottomNavigationBarItem(
-                    //     icon: Icon(Icons.business),
-                    //     label: 'Business',
-                    //   )
-                    // ],
-                    // currentIndex: _selectedIndex,
-                    // selectedItemColor: Colors.amber[800],
-                    // onTap: _onItemTapped,
+                bottomNavigationBar: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Home',
                     ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.business),
+                      label: 'Business',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.business),
+                      label: 'Business',
+                    )
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.amber[800],
+                  onTap: _onItemTapped,
+                ),
               )
             : AccountSetup()
         : Column(
