@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:ramo/services/databaseService.dart';
 import 'dart:async';
 
-class SignUpPage extends StatefulWidget {
+class SignUpCommunityPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignUpCommunityPageState createState() => _SignUpCommunityPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpCommunityPageState extends State<SignUpCommunityPage> {
   @override
   void initState() {
     super.initState();
@@ -38,7 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'Ramo sign up',
+                        'community sign up',
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.grey,
@@ -124,9 +124,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               .signUp(
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
-                                  type: 0);
+                                  type: 1);
                           if (result) {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pushNamed('/homwrap');
                           }
                         },
                         child: Text(
@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       InkWell(
                         child: Text(
-                          "Ramo for communities",
+                          "Aleady have an Community account?",
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal,
