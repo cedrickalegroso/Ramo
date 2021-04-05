@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ramo/main.dart';
 import 'package:ramo/models/models.dart';
 import 'package:ramo/pages/auth/accountsetup.dart';
 import 'package:ramo/pages/auth/accountsetupComm.dart';
@@ -25,7 +26,7 @@ class _CheckPointStateful extends State<CheckPointStateful> {
     return userData != null
         ? userData.userType == 1
             ? HomePageComStateful()
-            : HomePageStateful()
+            : HomePageStateful(cameras)
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -164,6 +164,21 @@ class _SignInPagePageState extends State<SignInPage> {
                   ),
                   InkWell(
                     child: Text(
+                      "Ramo for Communities",
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/signincom');
+                    },
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InkWell(
+                    child: Text(
                       "DEVELOPER MODE",
                       style: TextStyle(
                           fontSize: 14.0,

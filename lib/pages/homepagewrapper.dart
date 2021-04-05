@@ -1,7 +1,9 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ramo/models/models.dart';
+import 'package:ramo/pages/auth/checkpoint.dart';
 import 'package:ramo/pages/homepage.dart';
 import 'package:ramo/services/databaseService.dart';
 
@@ -24,7 +26,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 initialData: null,
               )
             ],
-            child: HomePageStateful(),
+            child: CheckPointStateful(),
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,

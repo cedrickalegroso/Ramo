@@ -91,9 +91,8 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthenticationWrapperState extends StatefulWidget {
-  const AuthenticationWrapperState({
-    Key key,
-  }) : super(key: key);
+  final List<CameraDescription> cameras;
+  const AuthenticationWrapperState({Key key, this.cameras}) : super(key: key);
 
   @override
   _AuthenticationWrapperState createState() => _AuthenticationWrapperState();

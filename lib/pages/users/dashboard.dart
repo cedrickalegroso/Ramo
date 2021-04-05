@@ -19,49 +19,50 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
         ? Container(
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  screenData.size.height / 50,
-                  screenData.size.height / 10,
-                  screenData.size.height / 50,
-                  0.0),
+                  0.0, screenData.size.height / 10, 0.0, 0.0),
               child: Column(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(width: 1.5, color: Colors.grey[300]),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom:
+                              BorderSide(width: 1.5, color: Colors.grey[300]),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          child: GestureDetector(
-                            child: Center(
-                              child: ClipOval(
-                                  clipper: ProfileClipper(),
-                                  child: CachedNetworkImage(
-                                    imageUrl: userData.photoUrl,
-                                    width: screenData.size.height / 20,
-                                    placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  )),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        child: Row(
+                          children: [
+                            Container(
+                              child: GestureDetector(
+                                child: Center(
+                                  child: ClipOval(
+                                      clipper: ProfileClipper(),
+                                      child: CachedNetworkImage(
+                                        imageUrl: userData.photoUrl,
+                                        width: screenData.size.height / 20,
+                                        placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      )),
+                                ),
+                                onTap: () {},
+                              ),
                             ),
-                            onTap: () {},
-                          ),
+                            SizedBox(
+                              width: screenData.size.height / 40,
+                            ),
+                            Text('Jennie Kim',
+                                style: TextStyle(
+                                    fontSize: screenData.size.height / 50,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal)),
+                          ],
                         ),
-                        SizedBox(
-                          width: screenData.size.height / 40,
-                        ),
-                        Text('Jennie Kim',
-                            style: TextStyle(
-                                fontSize: screenData.size.height / 50,
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal)),
-                      ],
-                    ),
-                  )
+                      )),
                 ],
               ),
             ),

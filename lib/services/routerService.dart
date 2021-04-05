@@ -27,8 +27,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpPage());
       case '/signupcom':
         return MaterialPageRoute(builder: (_) => SignUpCommunityPage());
-      case '/home':
-        return MaterialPageRoute(builder: (_) => HomePageStateful());
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => Onboarding());
       case '/accsetup':
