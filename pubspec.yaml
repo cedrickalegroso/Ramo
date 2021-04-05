@@ -21,12 +21,24 @@ environment:
   sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
+  camera: ^0.8.1
+  tflite: ^1.1.1
+  flutter_spinkit: ^5.0.0
+  firebase_storage: ^8.0.1
+  cached_network_image: ^3.0.0
+  easy_localization: ^3.0.0
+  image_picker: ^0.7.4
+  rxdart: ^0.26.0
+  google_maps_flutter: ^2.0.2
+  location: ^4.1.1
+  geoflutterfire2: ^2.3.2
   shared_preferences: ^2.0.5
   cloud_firestore: ^1.0.3
   provider: ^5.0.0
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
   firebase: ^9.0.1
+  
   flutter:
     sdk: flutter
     
@@ -43,9 +55,11 @@ dev_dependencies:
   flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
-  android: "launcher_icon"
+  android: "ic_launcher"
   ios: true
   image_path: "assets/img/logo.png"
+  adaptive_icon_background: "assets/img/bg.png"
+  adaptive_icon_foreground: "assets/img/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,6 +76,9 @@ flutter:
   assets:
      - assets/img/logo.png
      - assets/img/logo2.png
+     - assets/img/boxramo.png
+     - assets/objdtn/labels.txt
+     - assets/objdtn/ssd_mobilenet.tflite
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
