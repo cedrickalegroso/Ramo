@@ -13,6 +13,8 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _HomeWrapperState extends State<HomeWrapper> {
+  DatabaseService _databaseService = DatabaseService();
+  String search = '';
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
@@ -23,6 +25,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
                   create: (_) => DatabaseService(uid: firebaseuser.uid)),
               StreamProvider<UserData>.value(
                 value: DatabaseService(uid: firebaseuser.uid).userData,
+                initialData: null,
+              ),
+              StreamProvider.value(
+                value: _databaseService.getQueryNames(search),
                 initialData: null,
               )
             ],

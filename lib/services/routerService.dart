@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ramo/pages/auth/accountsetupComm.dart';
@@ -14,7 +15,9 @@ import 'package:ramo/pages/homepagewrapper.dart';
 import 'package:ramo/pages/onboarding/onboarding.dart';
 import 'package:ramo/pages/dev/devhome.dart';
 import 'package:ramo/pages/dev/camera.dart';
+import 'package:ramo/pages/dev/search.dart';
 import 'package:ramo/pages/dev/checkbox1.dart';
+import 'package:ramo/pages/users/comprofile.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,6 +46,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => CheckBoxListTileDemo());
       case '/homwrap':
         return MaterialPageRoute(builder: (_) => HomeWrapper());
+
+      case '/search':
+        return MaterialPageRoute(builder: (_) => TESTSEARCHPage());
       case '/objdtndev':
         return MaterialPageRoute(builder: (_) => ObjdtnState(cameras));
       default:

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +154,37 @@ class _DevPageStateful extends State<DevPage> {
               ),
               onTap: () {
                 context.read<AuthService>().signOut();
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
+                "Search",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/search');
+              },
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            InkWell(
+              child: Text(
+                "Profile",
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/profile',
+                    arguments: FirebaseAuth.instance.currentUser.uid);
               },
             ),
           ],

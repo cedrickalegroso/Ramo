@@ -8,6 +8,7 @@ import 'package:ramo/pages/auth/accountsetup.dart';
 import 'package:ramo/pages/auth/signinpage.dart';
 import 'package:ramo/pages/auth/signuppage.dart';
 import 'package:ramo/pages/homepagewrapper.dart';
+import 'package:ramo/pages/users/comprofile.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ramo/services/databaseService.dart';
@@ -66,26 +67,23 @@ class MyApp extends StatelessWidget {
         //       )
       ],
       child: MaterialApp(
-          onGenerateRoute: RouteGenerator.generateRoute,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+        onGenerateRoute: RouteGenerator.generateRoute,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Scaffold(
+          body: Container(
+            child: onBoardScreen == 1
+                ? AuthenticationWrapperState()
+                : Onboarding(),
           ),
-          home: Scaffold(
-            body: Container(
-              child: onBoardScreen == 1
-                  ? AuthenticationWrapperState()
-                  : Onboarding(),
-            ),
-          )
-          // initialRoute:
-          //     onBoardScreen == 0 || onBoardScreen == null ? 'Onboarding' : 'home',
-          // routes: {
-          //   'Onboarding': (context) => Onboarding(),
-          //   'home': (context) => AuthenticationWrapper()
-          // },
-          ),
+        ),
+        routes: {
+          '/profile': (context) => ProfileComm(),
+        },
+      ),
     );
   }
 }

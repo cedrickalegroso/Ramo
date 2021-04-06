@@ -12,6 +12,8 @@ import 'package:ramo/pages/users/settings.dart';
 import 'package:tflite/tflite.dart';
 import 'dev/checkbox1.dart';
 
+import 'package:ramo/pages/dev/search.dart';
+
 import 'package:ramo/pages/dev/cameraobjdtn.dart';
 import 'package:ramo/pages/dev/boundingBox.dart';
 import 'dart:math' as math;
@@ -102,7 +104,7 @@ class _HomePageStateful extends State<HomePageStateful> {
                 // ),
                 body: Container(
                   height: screenData.size.height,
-                  width: screenData.size.width,
+                  width: screenData.size.height,
                   child: isCameraMode == false
                       ? currentScreen
                       : _model == ""
