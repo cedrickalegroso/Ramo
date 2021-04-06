@@ -1,45 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ramo/models/models.dart';
-import 'package:ramo/models/userData.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 
-// class DatabaseService {
-//   final FirebaseFirestore _db = FirebaseFirestore.instance;
-//   final photoUrl = 'https://i.imgur.com/R8PduKR.png';
+import 'dart:developer';
 
-//   final CollectionReference userCollection =
-//       FirebaseFirestore.instance.collection('Users');
-
-//   Future<UserData> getUser(String id) async {
-//     var snap = await _db.collection('Users').doc(id).get();
-//     return UserData.fromMap(snap.data());
-//   }
-
-//   Future<void> addUserToDatabase(uid, email) async {
-//     return await userCollection
-//         .doc(uid)
-//         .set({
-//           'uid': uid,
-//           'email': email,
-//           'photoUrl': photoUrl,
-//           'hasGeo': 0,
-//           'hasDoneSetup': 0
-//         })
-//         .then((value) => print("User Added"))
-//         .catchError((error) => print("Failed to add user: $error"));
-//   }
-
-//   Stream<UserData> streamUserData(String id) {
-//     print('streaming $id');
-//     return _db
-//         .collection('Users')
-//         .doc(id)
-//         .snapshots()
-//         .map((snap) => UserData.fromMap(snap.data()));
-//   }
-// }
+import 'package:quiver/iterables.dart';
 
 class DatabaseService {
   Location location = new Location();
@@ -57,6 +24,61 @@ class DatabaseService {
 
   final CollectionReference commCollection =
       FirebaseFirestore.instance.collection('Communities');
+
+  Future<List<String>> getUserFollowing(uid) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .collection('following')
+        .get();
+
+    final users = querySnapshot.docs.map((doc) => doc.id).toList();
+    return users;
+  }
+
+  Stream<bool> isFollowing(uid, otherId) {
+    return FirebaseFirestore.instance
+        .collection("Users")
+        .doc(uid)
+        .collection("following")
+        .doc(otherId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.exists;
+    });
+  }
+
+  Future<void> followUser(uid) async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('following')
+        .doc(uid)
+        .set({});
+
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .collection('followers')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .set({});
+  }
+
+  Future<void> unfollowUser(uid) async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('following')
+        .doc(uid)
+        .delete();
+
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uid)
+        .collection('followers')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .delete();
+  }
 
   Stream<List<UserData>> getQueryNames(search) {
     return FirebaseFirestore.instance
@@ -243,5 +265,78 @@ class DatabaseService {
     var query = userCollection.where('userType', isEqualTo: 1);
 
     return Future.value([1, 2, 3, 4]);
+  }
+
+  // POSTS
+
+  List<Posts> _postListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Posts(
+        uid: doc.id,
+        text: doc.data()['text'] ?? '',
+        postType: doc.data()['postType'] ?? 0,
+        fileUrl: doc.data()['fileUrl'] ?? '',
+        creator: doc.data()['creator'] ?? '',
+        timestamp: doc.data()['timestamp'] ?? 0,
+      );
+    }).toList();
+  }
+
+  Future savePost(text) async {
+    print('savePost Called');
+    await FirebaseFirestore.instance.collection("posts").add({
+      'postType': 0,
+      'text': text,
+      'creator': FirebaseAuth.instance.currentUser.uid,
+      'timestamp': FieldValue.serverTimestamp()
+    });
+  }
+
+  Future savePostWithImage(fileUrl, text) async {
+    print('savePost with image Called');
+    await FirebaseFirestore.instance.collection("posts").add({
+      'postType': 1,
+      'text': text,
+      'fileUrl': fileUrl,
+      'creator': FirebaseAuth.instance.currentUser.uid,
+      'timestamp': FieldValue.serverTimestamp()
+    });
+  }
+
+  Stream<List<Posts>> getPostsByUser(uid) {
+    return FirebaseFirestore.instance
+        .collection("posts")
+        .where('creator', isEqualTo: uid)
+        .snapshots()
+        .map(_postListFromSnapshot);
+  }
+
+  Future<List<Posts>> getFeed() async {
+    List<String> usersFollowing =
+        await getUserFollowing(FirebaseAuth.instance.currentUser.uid);
+
+    var splitUsersFollowing = partition<dynamic>(usersFollowing, 10);
+    inspect(splitUsersFollowing);
+
+    List<Posts> feedList = [];
+
+    for (int i = 0; i < splitUsersFollowing.length; i++) {
+      inspect(splitUsersFollowing.elementAt(i));
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('creator', whereIn: splitUsersFollowing.elementAt(i))
+          .orderBy('timestamp', descending: true)
+          .get();
+
+      feedList.addAll(_postListFromSnapshot(querySnapshot));
+    }
+
+    feedList.sort((a, b) {
+      var adate = a.timestamp;
+      var bdate = b.timestamp;
+      return bdate.compareTo(adate);
+    });
+
+    return feedList;
   }
 }

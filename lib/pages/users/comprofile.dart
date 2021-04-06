@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ramo/misc/clipper.dart';
 import 'package:ramo/services/databaseService.dart';
 import 'package:ramo/models/models.dart';
+import 'package:ramo/pages/users/postList.dart';
 
 class ProfileComm extends StatefulWidget {
   ProfileComm({
@@ -19,16 +22,18 @@ class _ProfileCommState extends State<ProfileComm> {
   @override
   Widget build(BuildContext context) {
     final String uid = ModalRoute.of(context).settings.arguments;
-
+    final screenData = MediaQuery.of(context);
     return MultiProvider(
         providers: [
-          // StreamProvider.value(
-          //   value: _userService.isFollowing(
-          //       FirebaseAuth.instance.currentUser.uid, uid),
-          // ),
-          // StreamProvider.value(
-          //   value: _postService.getPostsByUser(uid),
-          // ),
+          StreamProvider.value(
+            value: _userService.isFollowing(
+                FirebaseAuth.instance.currentUser.uid, uid),
+            initialData: false,
+          ),
+          StreamProvider.value(
+            value: _userService.getPostsByUser(uid),
+            initialData: null,
+          ),
           StreamProvider.value(
             value: _userService.getUserInfo(uid),
             initialData: null,
@@ -43,32 +48,79 @@ class _ProfileCommState extends State<ProfileComm> {
                     SliverAppBar(
                       floating: false,
                       pinned: true,
-                      expandedHeight: 130,
+                      snap: false,
+                      expandedHeight: 160.0,
+                      backgroundColor: Colors.white,
+                      leading: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.black,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                       flexibleSpace: FlexibleSpaceBar(
+                          title: Title(
+                              color: Colors.red,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: screenData.size.height / 10),
+                                child: Row(
+                                  children: [
+                                    ClipOval(
+                                        clipper: ProfileClipper(),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              Provider.of<UserData>(context)
+                                                  .photoUrl,
+                                          width: screenData.size.height / 20,
+                                          placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                        )),
+                                    SizedBox(
+                                      width: screenData.size.width / 70,
+                                    ),
+                                    Text(
+                                      Provider.of<UserData>(context).name,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              screenData.size.height / 60),
+                                    ),
+                                    //                                   Align(
+                                    //   alignment: Alignment.centerLeft,
+                                    //   child: Container(
+                                    //     padding: EdgeInsets.symmetric(vertical: 5),
+                                    //     child: Text(
+                                    //       Provider.of<UserData>(context).bio ?? '',
+                                    //       style: TextStyle(
+                                    //         fontWeight: FontWeight.normal,
+                                    //         fontSize: 14,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // )
+                                  ],
+                                ),
+                              )),
                           background: Image.network(
-                        Provider.of<UserData>(context).photoUrl ?? '',
-                        fit: BoxFit.cover,
-                      )),
+                            Provider.of<UserData>(context).photoUrl ?? '',
+                            fit: BoxFit.cover,
+                          )),
                     ),
                     SliverList(
                         delegate: SliverChildListDelegate([
                       Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         child: Column(
                           children: [
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Provider.of<UserData>(context).photoUrl != ''
-                                      ? CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: NetworkImage(
-                                              Provider.of<UserData>(context)
-                                                  .photoUrl),
-                                        )
-                                      : Icon(Icons.person, size: 50),
                                   if (FirebaseAuth.instance.currentUser.uid ==
                                       uid)
                                     TextButton(
@@ -76,58 +128,32 @@ class _ProfileCommState extends State<ProfileComm> {
                                           //  Navigator.pushNamed(context, '/edit');
                                         },
                                         child: Text("Edit ProfileComm"))
-                                  // else if (FirebaseAuth
-                                  //             .instance.currentUser.uid !=
-                                  //         uid &&
-                                  //     !Provider.of<bool>(context))
-                                  //   TextButton(
-                                  //       onPressed: () {
-                                  //         //  _userService.followUser(uid);
-                                  //       },
-                                  //       child: Text("Follow"))
-                                  // else if (FirebaseAuth
-                                  //             .instance.currentUser.uid !=
-                                  //         uid &&
-                                  //     Provider.of<bool>(context))
-                                  //   TextButton(
-                                  //       onPressed: () {
-                                  //         //   _userService.unfollowUser(uid);
-                                  //       },
-                                  //       child: Text("Unfollow")),
+                                  else if (FirebaseAuth
+                                              .instance.currentUser.uid !=
+                                          uid &&
+                                      !Provider.of<bool>(context))
+                                    TextButton(
+                                        onPressed: () {
+                                          _userService.followUser(uid);
+                                        },
+                                        child: Text("Follow"))
+                                  else if (FirebaseAuth
+                                              .instance.currentUser.uid !=
+                                          uid &&
+                                      Provider.of<bool>(context))
+                                    TextButton(
+                                        onPressed: () {
+                                          _userService.unfollowUser(uid);
+                                        },
+                                        child: Text("Unfollow")),
                                 ]),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  Provider.of<UserData>(context).name ?? '',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  Provider.of<UserData>(context).bio ?? '',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            )
                           ],
                         ),
                       )
                     ]))
                   ];
                 },
-                body: Text('FEEDS')),
+                body: ListPosts()),
           ),
         ));
   }

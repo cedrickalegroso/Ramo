@@ -83,6 +83,12 @@ class _HomePageComStateful extends State<HomePageComStateful> {
                       child: Text("Sign Out"),
                     ),
                     ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/addPost');
+                      },
+                      child: Text("add Post"),
+                    ),
+                    ElevatedButton(
                       onPressed: () {},
                       child: Text("Sign wew"),
                     ),

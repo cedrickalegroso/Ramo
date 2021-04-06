@@ -14,7 +14,7 @@ import 'package:ramo/pages/users/comprofile.dart';
 import 'package:ramo/services/authService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:ramo/services/databaseService.dart';
+import 'package:ramo/pages/community/addPost.dart';
 
 class CheckPointStateful extends StatefulWidget {
   @override
@@ -36,6 +36,7 @@ class _CheckPointStateful extends State<CheckPointStateful> {
               '/profile': (context) => ProfileComm(),
               '/dev': (context) => DevPage(),
               '/search': (context) => TESTSEARCHPage(),
+              '/addPost': (context) => AddPostCom(),
             },
           )
         : Column(

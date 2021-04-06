@@ -8,6 +8,7 @@ import 'package:ramo/services/authService.dart';
 import 'package:ramo/services/databaseService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:ramo/pages/users/postList.dart';
 
 class DashboardWrapper extends StatefulWidget {
   @override
@@ -15,111 +16,69 @@ class DashboardWrapper extends StatefulWidget {
 }
 
 class _DashboardWrapperState extends State<DashboardWrapper> {
-  DatabaseService _databaseService = DatabaseService();
-  String search = 's';
+  DatabaseService _postService = DatabaseService();
+  String search = '';
 
-  @override
+  @override //
   Widget build(BuildContext context) {
-    final users = Provider.of<List<UserData>>(context) ?? [];
     final userData = context.watch<UserData>();
     final screenData = MediaQuery.of(context);
-    var firebaseuser;
     return userData != null
-        ? Container(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                  0.0, screenData.size.height / 10, 0.0, 0.0),
-              child: Column(
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom:
-                              BorderSide(width: 1.5, color: Colors.grey[300]),
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                        child: Row(
-                          children: [
-                            Container(
-                              child: GestureDetector(
-                                child: Center(
-                                  child: ClipOval(
-                                      clipper: ProfileClipper(),
-                                      child: CachedNetworkImage(
-                                        imageUrl: userData.photoUrl,
-                                        width: screenData.size.height / 20,
-                                        placeholder: (context, url) => Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                      )),
+        ? FutureProvider.value(
+            value: _postService.getFeed(),
+            initialData: null,
+            child: Scaffold(
+                body: DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                  headerSliverBuilder: (context, _) {
+                    return [
+                      SliverAppBar(
+                        floating: true,
+                        pinned: true,
+                        snap: true,
+                        expandedHeight: 10,
+                        backgroundColor: Colors.white,
+                        title: Title(
+                            color: Colors.red,
+                            child: Row(
+                              children: [
+                                SizedBox(width: screenData.size.height / 50),
+                                ClipOval(
+                                    clipper: ProfileClipper(),
+                                    child: CachedNetworkImage(
+                                      imageUrl: userData.photoUrl,
+                                      width: screenData.size.height / 20,
+                                      placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                    )),
+                                SizedBox(
+                                  width: screenData.size.width / 50,
                                 ),
-                                onTap: () {},
-                              ),
-                            ),
-                            SizedBox(
-                              width: screenData.size.height / 29,
-                            ),
-                            Text('Jennie Kim',
-                                style: TextStyle(
-                                    fontSize: screenData.size.height / 50,
+                                Text(
+                                  userData.fname,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: screenData.size.height / 60),
+                                ),
+                                SizedBox(width: screenData.size.height / 3.6),
+                                IconButton(
+                                    icon: Icon(Icons.search),
                                     color: Colors.black,
-                                    fontWeight: FontWeight.normal)),
-                            SizedBox(width: screenData.size.height / 4.5),
-                            IconButton(
-                                icon: Icon(Icons.search),
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/search');
-                                })
-                          ],
-                        ),
-                      )),
-                  // SingleChildScrollView(
-                  //   child: Column(
-                  //     children: [
-                  //       Container(
-                  //         height: screenData.size.height / 5,
-                  //         width: screenData.size.width,
-                  //         color: Colors.greenAccent,
-                  //       ),
-                  //       SizedBox(
-                  //         height: screenData.size.height / 10,
-                  //       ),
-                  //       Container(
-                  //         height: screenData.size.height / 5,
-                  //         width: screenData.size.width,
-                  //         color: Colors.greenAccent,
-                  //       ),
-                  //       SizedBox(
-                  //         height: screenData.size.height / 10,
-                  //       ),
-                  //       Container(
-                  //         height: screenData.size.height / 5,
-                  //         width: screenData.size.width,
-                  //         color: Colors.greenAccent,
-                  //       ),
-                  //       SizedBox(
-                  //         height: screenData.size.height / 10,
-                  //       ),
-                  //       Container(
-                  //         height: screenData.size.height / 5,
-                  //         width: screenData.size.width,
-                  //         color: Colors.greenAccent,
-                  //       ),
-                  //       SizedBox(
-                  //         height: screenData.size.height / 10,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
-                ],
-              ),
-            ),
-          )
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/search');
+                                    })
+                              ],
+                            )),
+                      ),
+                    ];
+                  },
+                  body: ListPosts()),
+            )))
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,85 +91,61 @@ class _DashboardWrapperState extends State<DashboardWrapper> {
   }
 }
 
-class DataSearch extends SearchDelegate<String> {
-  final cities = [
-    'Manila',
-    'Metro Pasig',
-    'BGC',
-    'Iloilo',
-    'Cebu',
-    'Bacolod',
-    'Pasay',
-    'Pasig',
-  ];
+// Container(
+//               child: Padding(
+//                 padding: EdgeInsets.fromLTRB(
+//                     0.0, screenData.size.height / 10, 0.0, 0.0),
+//                 child: Column(
+//                   children: [
+//                     Container(
+//                         decoration: BoxDecoration(
+//                           border: Border(
+//                             bottom:
+//                                 BorderSide(width: 1.5, color: Colors.grey[300]),
+//                           ),
+//                         ),
+//                         child: Padding(
+//                           padding:
+//                               EdgeInsets.only(left: 10, right: 10, bottom: 10),
+//                           child: Row(
+//                             children: [
+//                               Container(
+//                                 child: GestureDetector(
+//                                   child: Center(
+//                                     child: ClipOval(
+//                                         clipper: ProfileClipper(),
+//                                         child: CachedNetworkImage(
+//                                           imageUrl: userData.photoUrl,
+//                                           width: screenData.size.height / 20,
+//                                           placeholder: (context, url) => Center(
+//                                             child: CircularProgressIndicator(),
+//                                           ),
+//                                           errorWidget: (context, url, error) =>
+//                                               Icon(Icons.error),
+//                                         )),
+//                                   ),
+//                                   onTap: () {},
+//                                 ),
+//                               ),
+//                               SizedBox(
+//                                 width: screenData.size.height / 29,
+//                               ),
+//                               Text('Jennie Kim',
+//                                   style: TextStyle(
+//                                       fontSize: screenData.size.height / 50,
+//                                       color: Colors.black,
+//                                       fontWeight: FontWeight.normal)),
+//                               SizedBox(width: screenData.size.height / 4.5),
+//                               IconButton(
+//                                   icon: Icon(Icons.search),
+//                                   onPressed: () {
+//                                     Navigator.of(context).pushNamed('/search');
+//                                   })
+//                             ],
+//                           ),
+//                         )),
 
-  final recentSearch = [
-    'Iloilo',
-    'Cebu',
-    'Bacolod',
-  ];
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            query = "";
-          })
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    // leading icon
-    return IconButton(
-        icon: AnimatedIcon(
-            icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-        onPressed: () {
-          close(context, null);
-        });
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // show results based ib selection
-    return Container(
-      height: 100.0,
-      width: 100.0,
-      child: Card(
-        color: Colors.red,
-        child: Center(
-          child: Text(query),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // show when someone searches
-
-    final suggestionList = query.isEmpty ? recentSearch : cities;
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          showResults(context);
-        },
-        leading: Icon(Icons.local_atm),
-        title: RichText(
-          text: TextSpan(
-              text: suggestionList[index].substring(0, query.length),
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                    text: suggestionList[index].substring(query.length),
-                    style: TextStyle(color: Colors.grey))
-              ]),
-        ),
-      ),
-      itemCount: suggestionList.length,
-    );
-  }
-}
+//                   ],
+//                 ),
+//               ),
+//             ),

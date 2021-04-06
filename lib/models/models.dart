@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UserData {
@@ -62,25 +63,20 @@ class UserModel {
       this.photoUrl});
 }
 
-class CommunityData {
+class Posts {
   final String uid;
-  final String email;
-  final int hasGeo;
-  final int hasDoneSetup;
-  final int userType;
-  final String name;
-  final String bio;
-  final String phone;
-  final String photoUrl;
+  final String creator;
+  final int postType;
+  final String fileUrl;
+  final String text;
+  final Timestamp timestamp;
 
-  CommunityData(
-      {@required this.uid,
-      this.email,
-      this.hasGeo,
-      this.hasDoneSetup,
-      this.userType,
-      this.name,
-      this.bio,
-      this.phone,
-      this.photoUrl});
+  Posts({
+    @required this.uid,
+    this.creator,
+    this.postType,
+    this.fileUrl,
+    this.text,
+    this.timestamp,
+  });
 }
