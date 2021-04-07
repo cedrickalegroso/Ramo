@@ -16,11 +16,12 @@ class DashboardWrapper extends StatefulWidget {
 }
 
 class _DashboardWrapperState extends State<DashboardWrapper> {
-  DatabaseService _postService = DatabaseService();
+  // DatabaseService _postService = DatabaseService();
   String search = '';
 
   @override //
   Widget build(BuildContext context) {
+    final _postService = context.read<DatabaseService>();
     final userData = context.watch<UserData>();
     final screenData = MediaQuery.of(context);
     return userData != null

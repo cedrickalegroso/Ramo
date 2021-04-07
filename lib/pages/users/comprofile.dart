@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ramo/misc/clipper.dart';
+import 'package:ramo/services/authService.dart';
 import 'package:ramo/services/databaseService.dart';
 import 'package:ramo/models/models.dart';
 import 'package:ramo/pages/users/postList.dart';
@@ -17,17 +18,19 @@ class ProfileComm extends StatefulWidget {
 }
 
 class _ProfileCommState extends State<ProfileComm> {
-  DatabaseService _userService = DatabaseService();
+  // DatabaseService _userService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
     final String uid = ModalRoute.of(context).settings.arguments;
     final screenData = MediaQuery.of(context);
+    final _userService = context.read<DatabaseService>();
+    final firebaseuser = context.watch<User>();
+    final commData = context.watch<UserData>();
     return MultiProvider(
         providers: [
           StreamProvider.value(
-            value: _userService.isFollowing(
-                FirebaseAuth.instance.currentUser.uid, uid),
+            value: _userService.isFollowing(firebaseuser.uid, uid),
             initialData: false,
           ),
           StreamProvider.value(
@@ -69,9 +72,7 @@ class _ProfileCommState extends State<ProfileComm> {
                                     ClipOval(
                                         clipper: ProfileClipper(),
                                         child: CachedNetworkImage(
-                                          imageUrl:
-                                              Provider.of<UserData>(context)
-                                                  .photoUrl,
+                                          imageUrl: commData.photoUrl,
                                           width: screenData.size.height / 20,
                                           placeholder: (context, url) => Center(
                                             child: CircularProgressIndicator(),
@@ -83,7 +84,7 @@ class _ProfileCommState extends State<ProfileComm> {
                                       width: screenData.size.width / 70,
                                     ),
                                     Text(
-                                      Provider.of<UserData>(context).name,
+                                      commData.name,
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize:
@@ -106,7 +107,7 @@ class _ProfileCommState extends State<ProfileComm> {
                                 ),
                               )),
                           background: Image.network(
-                            Provider.of<UserData>(context).photoUrl ?? '',
+                            commData.photoUrl ?? '',
                             fit: BoxFit.cover,
                           )),
                     ),

@@ -11,8 +11,8 @@ class ListUsers extends StatefulWidget {
 class _ListUsersState extends State<ListUsers> {
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<List<UserData>>(context) ?? [];
-
+    //final users = Provider.of<List<UserData>>(context) ?? [];
+    final users = context.watch<List<UserData>>() ?? [];
     return ListView.builder(
         padding: EdgeInsets.only(top: 8.0),
         shrinkWrap: true,

@@ -11,12 +11,13 @@ class TESTSEARCHPage extends StatefulWidget {
 }
 
 class _TESTSEARCHPageState extends State<TESTSEARCHPage> {
-  DatabaseService _databaseService = DatabaseService();
+  // DatabaseService _databaseService = DatabaseService();
   String search = '';
 
   @override
   Widget build(BuildContext context) {
     final screenData = MediaQuery.of(context);
+    final _databaseService = context.read<DatabaseService>();
     return Scaffold(
       body: MultiProvider(
         providers: [

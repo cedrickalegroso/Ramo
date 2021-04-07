@@ -11,11 +11,12 @@ class ListPosts extends StatefulWidget {
 }
 
 class _ListPostsState extends State<ListPosts> {
-  DatabaseService _userService = DatabaseService();
+  // DatabaseService _userService = DatabaseService();
   @override
   Widget build(BuildContext context) {
-    final posts = Provider.of<List<Posts>>(context) ?? [];
-
+    // final posts = Provider.of<List<Posts>>(context) ?? [];
+    final posts = context.watch<List<Posts>>() ?? [];
+    final _userService = context.read<DatabaseService>();
     return ListView.builder(
       itemCount: posts.length,
       itemBuilder: (context, index) {
