@@ -134,7 +134,8 @@ class _SignInCommunityPagePageState extends State<SignInCommunityPage> {
                             password: passwordController.text.trim(),
                           );
                       if (result) {
-                        Navigator.of(context).pushNamed('/home');
+                        // Navigator.of(context).pushNamed('/home');
+                        Navigator.of(context).pop();
                       }
                     },
                     child: Text(
@@ -157,7 +158,7 @@ class _SignInCommunityPagePageState extends State<SignInCommunityPage> {
                           color: Colors.grey),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/signupcom');
+                      Navigator.of(context).pushReplacementNamed('/signupcom');
                     },
                   ),
                   SizedBox(

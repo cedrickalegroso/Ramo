@@ -126,7 +126,7 @@ class _SignUpCommunityPageState extends State<SignUpCommunityPage> {
                                   password: passwordController.text.trim(),
                                   type: 1);
                           if (result) {
-                            Navigator.of(context).pushNamed('/homwrap');
+                            Navigator.of(context).pop();
                           }
                         },
                         child: Text(

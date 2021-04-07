@@ -490,10 +490,10 @@ class _AccountCommunitySetupState extends State<AccountCommunitySetup> {
                                           bool result = await context
                                               .read<DatabaseService>()
                                               .updateUserPref(prefs, uid);
-                                          if (result) {
-                                            Navigator.of(context)
-                                                .pushNamed('/home');
-                                          }
+                                          // if (result) {
+                                          //   Navigator.of(context)
+                                          //       .pushNamed('/auth');
+                                          // }
                                         },
                                         child: Text(
                                           "Next Step",
