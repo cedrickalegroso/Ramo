@@ -26,19 +26,15 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('Communities');
 
   Future<List<String>> getUserFollowing(uid) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(uid)
-        .collection('following')
-        .get();
+    QuerySnapshot querySnapshot =
+        await userCollection.doc(uid).collection('following').get();
 
     final users = querySnapshot.docs.map((doc) => doc.id).toList();
     return users;
   }
 
   Stream<bool> isFollowing(uid, otherId) {
-    return FirebaseFirestore.instance
-        .collection("Users")
+    return userCollection
         .doc(uid)
         .collection("following")
         .doc(otherId)
@@ -49,15 +45,13 @@ class DatabaseService {
   }
 
   Future<void> followUser(uid) async {
-    await FirebaseFirestore.instance
-        .collection('Users')
+    await userCollection
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('following')
         .doc(uid)
         .set({});
 
-    await FirebaseFirestore.instance
-        .collection('Users')
+    await userCollection
         .doc(uid)
         .collection('followers')
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -65,15 +59,13 @@ class DatabaseService {
   }
 
   Future<void> unfollowUser(uid) async {
-    await FirebaseFirestore.instance
-        .collection('Users')
+    await userCollection
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('following')
         .doc(uid)
         .delete();
 
-    await FirebaseFirestore.instance
-        .collection('Users')
+    await userCollection
         .doc(uid)
         .collection('followers')
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -81,8 +73,7 @@ class DatabaseService {
   }
 
   Stream<List<UserData>> getQueryNames(search) {
-    return FirebaseFirestore.instance
-        .collection('Users')
+    return userCollection
         .orderBy("name")
         .startAt([search])
         .endAt([search + '\uf8ff'])
@@ -93,11 +84,7 @@ class DatabaseService {
 
   Stream<UserData> getUserInfo(uid) {
     print('Getting user info of $uid');
-    return FirebaseFirestore.instance
-        .collection("Users")
-        .doc(uid)
-        .snapshots()
-        .map(_userFromFirebaseSnapshot);
+    return userCollection.doc(uid).snapshots().map(_userFromFirebaseSnapshot);
   }
 
   UserData _userFromFirebaseSnapshot(DocumentSnapshot snapshot) {
